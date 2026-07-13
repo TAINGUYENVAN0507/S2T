@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic-settings
+pydantic
+python-dotenv
+openai
+soundfile
+torch
+torchaudio
+numpy
+celery
+redis
+
