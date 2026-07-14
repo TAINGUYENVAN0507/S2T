@@ -1,0 +1,43 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: s2t_rt_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  api:
+    build: .
+    container_name: s2t_rt_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      LOG_DIR: app/logs
+    ports:
+      - "${API_HOST:-0.0.0.0}:${API_PORT:-8004}:8000"
+    volumes:
+      - ./app/logs:/app/app/logs
+    depends_on:
+      - redis
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  worker:
+    build: .
+    container_name: s2t_rt_worker
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      LOG_DIR: app/logs
+    volumes:
+      - ./app/logs:/app/app/logs
+    depends_on:
+      - redis
+    command: celery -A app.workers.celery.celery_app worker -Q audio_pipeline --loglevel=info --concurrency=${CELERY_CONCURRENCY:-1}
+
+volumes:
+  redis_data:

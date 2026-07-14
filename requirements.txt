@@ -1,15 +1,16 @@
 fastapi
 uvicorn
-pydantic - settings
+python-multipart
+pydantic-settings
 pydantic
-python - dotenv
+python-dotenv
 openai
 soundfile
 torch
 torchaudio
 numpy
 webrtcvad
-silero - vad
+silero-vad
 celery
 redis
 onnxruntime
