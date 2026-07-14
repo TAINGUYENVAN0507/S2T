@@ -11,12 +11,11 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
     OPENAI_MODEL: str = "gpt-4o-transcribe"
 
-    # Workers / Queue
-    UVICORN_WORKERS: int
-    PIPELINE_WORKERS: int
-    CPU_WORKERS: int
-    OPENAI_CONCURRENCY: int
-    QUEUE_SIZE: int
+    PIPELINE_WORKERS: int = 32
+    QUEUE_SIZE: int = 512
+    BACKPRESSURE_RETRY_AFTER_SECONDS: int = 30
+    UPLOAD_WAIT_TIMEOUT_SECONDS: int = 120
+    UPLOAD_WAIT_POLL_SECONDS: float = 0.5
 
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -38,6 +37,14 @@ class Settings(BaseSettings):
     # Silero VAD
     SILERO_THRESHOLD: float
     SILERO_FRAME_SIZE: int
+
+    SAMPLE_RATE: int = 16000
+    CHANNELS: int = 1
+    SAMPLE_WIDTH: int = 2
+
+    LOG_DIR: str = "app/logs"
+    LOG_FILE: str = "app.log"
+    LOG_LEVEL: str = "INFO"
 
 
 settings = Settings()  # type: ignore
