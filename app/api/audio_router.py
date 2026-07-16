@@ -24,7 +24,6 @@ router = APIRouter(
 async def upload_audios(
     files: list[UploadFile] = File(...),
     language: str = Query(default="vi"),
-    use_vad: bool = Query(default=True),
 ) -> AudioBatchStatusResponse:
     """
     Upload một hoặc nhiều file audio.
@@ -34,7 +33,6 @@ async def upload_audios(
     created_batch = await create_audio_batch(
         files=files,
         language=language,
-        use_vad=use_vad,
     )
 
     return await wait_for_audio_batch_result(created_batch.batch_id)

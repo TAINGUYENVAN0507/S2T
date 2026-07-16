@@ -49,17 +49,6 @@ def build_file_key(
     return f"file:{batch_id}:{file_id}"
 
 
-def get_vad_detector():
-    global vad_detector
-
-    if vad_detector is None:
-        from app.middleware.vad import TwoStageVAD
-
-        vad_detector = TwoStageVAD()
-
-    return vad_detector
-
-
 @celery_app.task(
     bind=True,
     name="process_audio_task",
@@ -137,19 +126,8 @@ def process_audio_task(
             filename=filename,
         )
 
-        if use_vad:
-            from app.middleware.vad import join_speech_segments
 
-            segments = get_vad_detector().detect(
-                pcm_bytes=normalized_audio.pcm_bytes,
-                sample_rate=normalized_audio.sample_rate,
-            )
-            speech_pcm = join_speech_segments(
-                segments=segments,
-                sample_rate=normalized_audio.sample_rate,
-            )
-        else:
-            speech_pcm = normalized_audio.pcm_bytes
+        speech_pcm = normalized_audio.pcm_bytes
 
         logger.info(
             "Prepared speech pcm. batch_id=%s file_id=%s bytes=%s duration=%s",

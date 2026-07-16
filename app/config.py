@@ -33,16 +33,6 @@ class Settings(BaseSettings):
     MAX_AUDIO_FILES: int
     MAX_AUDIO_SIZE_MB: int
 
-    # WebRTC VAD
-    WEBRTC_VAD_MODE: int
-    VAD_FRAME_MS: int
-    VAD_END_SILENCE_MS: int
-    VAD_PADDING_MS: int
-
-    # Silero VAD
-    SILERO_THRESHOLD: float
-    SILERO_FRAME_SIZE: int
-
     SAMPLE_RATE: int = 16000
     CHANNELS: int = 1
     SAMPLE_WIDTH: int = 2

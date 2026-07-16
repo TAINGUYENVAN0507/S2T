@@ -14,11 +14,6 @@ class AudioUploadOptions(BaseModel):
         description="Ngôn ngữ chính của audio. Ví dụ: vi, en.",
     )
 
-    use_vad: bool = Field(
-        default=True,
-        description="Có sử dụng WebRTC + Silero VAD hay không.",
-    )
-
 
 class CancelBatchRequest(BaseModel):
     """

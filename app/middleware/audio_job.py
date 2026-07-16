@@ -173,7 +173,6 @@ async def create_audio_batch(
     *,
     files: list[UploadFile],
     language: str,
-    use_vad: bool,
 ) -> AudioBatchCreatedResponse:
     """
     Tạo batch xử lý audio.
@@ -210,7 +209,6 @@ async def create_audio_batch(
             "status": "queued",
             "total_files": len(files),
             "language": language,
-            "use_vad": int(use_vad),
         },
     )
 
@@ -234,7 +232,6 @@ async def create_audio_batch(
                 filename=audio_file.filename,
                 audio_key=audio_file.audio_key,
                 language=language,
-                use_vad=use_vad,
             )
 
             response_files.append(
@@ -349,7 +346,6 @@ async def enqueue_audio_task(
     filename: str,
     audio_key: str,
     language: str,
-    use_vad: bool,
 ) -> None:
     """
     Đẩy task vào Celery.
@@ -363,7 +359,6 @@ async def enqueue_audio_task(
             "audio_key": audio_key,
             "filename": filename,
             "language": language,
-            "use_vad": use_vad,
         },
         queue="audio_pipeline",
     )
