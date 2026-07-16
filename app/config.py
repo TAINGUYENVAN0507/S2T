@@ -5,20 +5,25 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
+        extra="ignore",
     )
 
     # OpenAI
     OPENAI_API_KEY: str
     OPENAI_MODEL: str = "gpt-4o-transcribe"
 
+    API_HOST: str = "0.0.0.0"
+    API_PORT: int = 8004
+
     PIPELINE_WORKERS: int = 32
     QUEUE_SIZE: int = 512
+    CELERY_CONCURRENCY: int = 1
     BACKPRESSURE_RETRY_AFTER_SECONDS: int = 30
     UPLOAD_WAIT_TIMEOUT_SECONDS: int = 120
     UPLOAD_WAIT_POLL_SECONDS: float = 0.5
 
     # Redis
-    REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_URL: str = "redis://localhost:6379/2"
 
     # TTL
     AUDIO_TTL_SECONDS: int
